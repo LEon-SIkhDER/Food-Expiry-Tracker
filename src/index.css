@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+    themes: light --default;
+}
+
+section {
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.active {
+    border-bottom: 3px solid green;
+}
+
+.offset {
+    position: relative;
+    z-index: 1;
+}
+
+.offset:before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.10) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 16px;
+}

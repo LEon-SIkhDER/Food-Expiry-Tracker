@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink, useLocation } from 'react-router';
+import AuthContext from '../Context/AuthContext';
+import { MdLogout } from 'react-icons/md';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+import { auth } from '../../firebase.config';
 
+import { signOut } from "firebase/auth"
 const Header = () => {
     const location = useLocation()
-    console.log(location.pathname)
-    const links = <>
-        <NavLink to={"/"}><li><a className='text-lg font-semibold'>Home</a></li></NavLink>
-        <NavLink to={"/fridge"}><li><a className='text-lg font-semibold'>Fridge</a></li></NavLink>
-    </>
+    const { user } = useContext(AuthContext)
 
+    const [dropdown, setDropdown] = useState(false)
+    console.log(dropdown)
+
+
+    const links = <>
+        <NavLink to={"/"}><li className='text-lg font-semibold'>Home</li></NavLink>
+        <NavLink to={"/fridge"}><li className='text-lg font-semibold'>Fridge</li></NavLink>
+    </>
+    const handleSignOut = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#59067d",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                signOut(auth)
+                    .then(result => {
+                        console.log(result)
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            confirmButtonColor: "#59067d",
+                            icon: "success"
+                        });
+                        localStorage.removeItem("user")
+
+                    })
+                    .catch((error) => console.log(error))
+
+            }
+        });
+
+
+    }
     return (
         <div>
             <section>
@@ -39,9 +79,25 @@ const Header = () => {
                         </ul>
                     </div>
                     <div className="navbar-end gap-4">
-                        <Link to={"/login"}><a className={`btn border-none ${location.pathname === "/login"&&"bg-purple-900 text-white"}`}>Login</a></Link>
-                        <Link to={"/register"}><a className={`btn border-none ${location.pathname === "/register"&&"bg-purple-900 text-white"}`}>Register</a></Link>
-                        
+                        {user ?
+                            <div className='p-1  duration-100 z-10  rounded-full relative hover:bg-black/10'>
+                                <img onClick={() => setDropdown(!dropdown)} className='w-10 rounded-full  active:scale-95' src={user?.photoURL} alt="Img" />
+                                <div className={`${dropdown ? "block" : "hidden"} absolute top-full w-max right-0 bg-white p-3 border border-gray-200 text-center rounded `}>
+                                    <img className='w-20 rounded-full mx-auto' src={user.photoURL} alt="Img" />
+                                    <h1 className='font-semibold text-xl mb-2'>{user.displayName}</h1>
+                                    <h2>{user.email}</h2>
+                                    <div className='border-b border-gray-300 mb-1'></div>
+                                    <button onClick={handleSignOut} className='text-left font-semibold flex items-center gap-1 hover:bg-gray-200 cursor-pointer btn rounded text-red-500 w-full text-base'>LogOut<span><MdLogout size={20} className='rotate-180 mt-[2px]' /></span></button>
+                                </div>
+                            </div> :
+                            <>
+                                <Link to={"/login"}><button className={`btn border-none ${location.pathname === "/login" && "bg-purple-900 text-white"}`}>Login</button></Link>
+                                <Link to={"/register"}><button className={`btn border-none ${location.pathname === "/register" && "bg-purple-900 text-white"}`}>Register</button></Link>
+                            </>
+                        }
+
+
+
                     </div>
                 </div>
             </section>

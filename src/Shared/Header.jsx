@@ -5,11 +5,15 @@ import { MdLogout } from 'react-icons/md';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { auth } from '../../firebase.config';
+import { Tooltip } from 'react-tooltip'
 
 import { signOut } from "firebase/auth"
+import { useRef } from 'react';
+import { useEffect } from 'react';
 const Header = () => {
     const location = useLocation()
     const { user } = useContext(AuthContext)
+    const dropdownRef = useRef()
 
     const [dropdown, setDropdown] = useState(false)
     console.log(dropdown)
@@ -18,6 +22,7 @@ const Header = () => {
     const links = <>
         <NavLink to={"/"}><li className='text-lg font-semibold'>Home</li></NavLink>
         <NavLink to={"/fridge"}><li className='text-lg font-semibold'>Fridge</li></NavLink>
+        <NavLink to={"/add-food"}><li className='text-lg font-semibold'>Add Food</li></NavLink>
     </>
     const handleSignOut = () => {
         Swal.fire({
@@ -49,6 +54,37 @@ const Header = () => {
 
 
     }
+
+    useEffect(() => {
+        const handleClick = (e) => {
+            console.log("function is running")
+            if (!dropdownRef.current.contains(e.target)) {
+                setDropdown(false)
+            }
+        }
+        document.addEventListener("click", handleClick)
+
+        return () => document.removeEventListener("click", handleClick)
+    }, [])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div>
             <section>
@@ -80,8 +116,13 @@ const Header = () => {
                     </div>
                     <div className="navbar-end gap-4">
                         {user ?
-                            <div className='p-1  duration-100 z-10  rounded-full relative hover:bg-black/10'>
-                                <img onClick={() => setDropdown(!dropdown)} className='w-10 rounded-full  active:scale-95' src={user?.photoURL} alt="Img" />
+                            <div className='p-1  duration-100 z-10  rounded-full relative hover:bg-black/10' ref={dropdownRef}>
+                                <Tooltip id="my-tooltip" />
+                                <img
+                                    onClick={() => setDropdown(!dropdown)}
+                                    data-tooltip-id="my-tooltip"
+                                    data-tooltip-content={user?.displayName}
+                                    className='w-10 rounded-full  active:scale-95' src={user?.photoURL} alt="Img" />
                                 <div className={`${dropdown ? "block" : "hidden"} absolute top-full w-max right-0 bg-white p-3 border border-gray-200 text-center rounded `}>
                                     <img className='w-20 rounded-full mx-auto' src={user.photoURL} alt="Img" />
                                     <h1 className='font-semibold text-xl mb-2'>{user.displayName}</h1>

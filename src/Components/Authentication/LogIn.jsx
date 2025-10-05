@@ -1,4 +1,4 @@
-import {  GithubAuthProvider, GoogleAuthProvider, signInWithPopup, updateProfile,signInWithEmailAndPassword } from 'firebase/auth';
+import {  GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { auth } from '../../../firebase.config';

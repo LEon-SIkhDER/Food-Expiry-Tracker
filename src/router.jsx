@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Fridge from "./Components/Fridge";
 import LogIn from "./Components/Authentication/LogIn";
 import Register from "./Components/Authentication/Register";
+import AddFood from "./Components/AddFood";
 
 export const router = createBrowserRouter([
     {
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
             {path:"/fridge", Component:Fridge},
             {path:"/login", Component:LogIn},
             {path:"/register", Component:Register},
+            {path:"/add-food", Component:AddFood},
         ]
     },
 ]);

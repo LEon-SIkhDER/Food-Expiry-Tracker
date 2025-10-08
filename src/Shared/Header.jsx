@@ -16,7 +16,7 @@ const Header = () => {
     const dropdownRef = useRef()
 
     const [dropdown, setDropdown] = useState(false)
-    console.log(dropdown)
+    // console.log(dropdown)
 
 
     const links = <>
@@ -57,7 +57,7 @@ const Header = () => {
 
     useEffect(() => {
         const handleClick = (e) => {
-            console.log("function is running")
+            // console.log("function is running")
             if (!dropdownRef.current.contains(e.target)) {
                 setDropdown(false)
             }
@@ -109,7 +109,7 @@ const Header = () => {
                     <div className="navbar-center hidden lg:flex">
                         <ul
                             // className="menu menu-horizontal px-1"
-                            className='flex gap-3 *:p-1.5 *:hover:bg-green-100 *:rounded-lg *:active:bg-green-600 *:active:text-white'
+                            className='flex gap-3 *:p-1.5 *:hover:bg-green-100 *:rounded-lg *:active:bg-green-600 '
                         >
                             {links}
                         </ul>

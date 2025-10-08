@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Footer = () => {
     return (
-        <div className='bg-[url(./footer.png)]  bg-cover w-full pb-5 pt-40 mt-10'>
+        <div className='bg-[url(/footer.png)]  bg-cover w-full pb-5 pt-40 mt-10'>
             <section>
                 <div className='flex items-start justify-between'>
                     <div className='flex items-center gap-2 mt-[-9px]'>

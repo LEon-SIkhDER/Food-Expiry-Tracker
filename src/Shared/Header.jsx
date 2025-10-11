@@ -133,6 +133,7 @@ const Header = () => {
                             </div> :
                             <>
                                 <Link to={"/login"}><button className={`btn border-none ${location.pathname === "/login" && "bg-purple-900 text-white"}`}>Login</button></Link>
+                                
                                 <Link to={"/register"}><button className={`btn border-none ${location.pathname === "/register" && "bg-purple-900 text-white"}`}>Register</button></Link>
                             </>
                         }

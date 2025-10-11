@@ -42,7 +42,7 @@ const Footer = () => {
                 </div>
                 <div className='border-b border-green-950 mt-10 mb-3'></div>
                 <p className='text-center '>Harvest Guard offers smart food tracking solutions to help you reduce waste and manage your kitchen efficiently.</p>
-                <p className='text-center '>© 2025 RannaGhor. All rights reserved & Designed by <span className='font-[mr_dafoe] sm:inline-block block'>Leon Sikhder.</span></p>
+                <p className='text-center '>© 2025 RannaGhor. All rights reserved & Designed by <span className='font-[mr_dafoe] sm:inline-block block text-lg'>Leon Sikhder.</span></p>
 
 
 

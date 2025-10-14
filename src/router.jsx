@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
             {path:"/login", Component:LogIn},
             {path:"/register", Component:Register},
             {path:"/add-food", Component:AddFood},
-            {path:"/details", Component:Details},
+            {path:"/details/:id", Component:Details},
         ]
     },
 ]);

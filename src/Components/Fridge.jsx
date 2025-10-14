@@ -9,7 +9,6 @@ import { Link } from 'react-router';
 const Fridge = () => {
     const [data, setData] = useState([])
     const [total, setTotal] = useState(0)
-    console.log(total)
     const [pageState, setPageState] = useState(1)
 
 
@@ -17,7 +16,7 @@ const Fridge = () => {
     useEffect(() => {
         axios.get(`http://localhost:3000/foods?skip=${(pageState - 1) * 12}`)
             .then(data => {
-                // console.log(data.data)
+                console.log(data.data.result)
                 setData(data.data.result)
                 setTotal(data.data.total)
             })
@@ -71,7 +70,7 @@ const Fridge = () => {
                                 <h1 className='text-xl font-bold text-[#193f0e]'>{d.name}</h1>
                                 <h2 className='font-semibold'>{d.category}</h2>
                             </div>
-                            <Link to={"/details"}>
+                            <Link to={`/details/${d._id}`}>
                                 <button className='btn w-full mt-5 text-lg font-semibold  text-white' style={{ background: `${color(isExpire(d.expiryDate))}` }}>View Details</button>
                             </Link>
                         </div>

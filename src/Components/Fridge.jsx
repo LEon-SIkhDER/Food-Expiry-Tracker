@@ -59,12 +59,18 @@ const Fridge = () => {
                 <div className='grid grid-cols-4 gap-5'>
                     {data?.map((d) =>
                         <div className='p-5 border-3  rounded-lg bg-white' style={{ border: `4px solid ${color(isExpire(d.expiryDate))}` }}>
-                            <div
-                                className=' flex items-start justify-between p-2 w-full bg-center aspect-square rounded-md bg-[length:100%] hover:bg-[length:120%] duration-300 '
-                                style={{ backgroundImage: `url(${d.photoURL})` }}>
-                                <h1 className='  inline-block  min-w-10 text-center rounded-full text-white font-bold' style={{ background: `${color(isExpire(d.expiryDate))}` }}>{d.quantity}</h1>
-                                <h2 className={` text-white rounded-full px-2 font-semibold`} style={{ background: `${color(isExpire(d.expiryDate))}` }}>{isExpire(d.expiryDate)}</h2>
-                            </div>
+                            <Link  to={`/details/${d._id}`}>
+
+                                <div
+
+                                    className=' flex items-start justify-between p-2 w-full bg-center aspect-square rounded-md bg-[length:100%] hover:bg-[length:120%] duration-300 '
+                                    style={{ backgroundImage: `url(${d.photoURL})` }}
+                                >
+                                    <h1 className='  inline-block  min-w-10 text-center rounded-full text-white font-bold' style={{ background: `${color(isExpire(d.expiryDate))}` }}>{d.quantity}</h1>
+                                    <h2 className={` text-white rounded-full px-2 font-semibold`} style={{ background: `${color(isExpire(d.expiryDate))}` }}>{isExpire(d.expiryDate)}</h2>
+                                </div>
+                            </Link>
+
                             <p className='text-xs'>{d.createdAt.month}-{d.createdAt.date}-{d.createdAt.year}</p>
                             <div className='flex justify-between items-center '>
                                 <h1 className='text-xl font-bold text-[#193f0e]'>{d.name}</h1>

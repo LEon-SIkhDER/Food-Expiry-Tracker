@@ -6,16 +6,17 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { FaBoxes, FaCircle, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Details = () => {
     const { id } = useParams()
     const [data, setData] = useState(null)
-    console.log(data&&Object.keys(data))
     const [modal, setModal] = useState(false)
     const [updateAbility, setUpdateAbility] = useState(false)
     const [updateLoading, setUpdateLoading] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get(`http://localhost:3000/foods/${id}`)
@@ -24,6 +25,7 @@ const Details = () => {
                 setData(data.data)
             })
     }, [])
+
 
     const tomorrow = format(addDays(new Date(), 1), "yyyy-MM-dd")
 
@@ -68,7 +70,49 @@ const Details = () => {
 
     }
 
-    
+    const handleDelete = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#1d8500",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:3000/foods/${id}`)
+                    .then(data => {
+                        console.log(data.data)
+                        if (data.data.deletedCount) {
+                            console.log("deleted")
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            }).then((result)=>{
+                                if(result.isConfirmed){
+                                    navigate("/fridge")
+                                }
+                            })
+                        }
+
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong!",
+                            confirmButtonColor: "#1d8500",
+
+                        });
+                    })
+
+
+
+            }
+        });
+    }
 
 
     return (
@@ -120,7 +164,7 @@ const Details = () => {
 
                             <div className='flex-1 '></div>
                             <div className='flex justify-between'>
-                                <button className='btn bg-red-500 text-white hover:bg-red-600'><FaTrashAlt />Delete</button>
+                                <button onClick={handleDelete} className='btn bg-red-500 text-white hover:bg-red-600'><FaTrashAlt />Delete</button>
                                 <button onClick={() => setModal(!modal)} className='btn bg-blue-800 text-white hover:bg-blue-900 '><FaEdit />Update</button>
                             </div>
                         </div>

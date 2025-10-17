@@ -12,11 +12,12 @@ import Swal from 'sweetalert2';
 
 const Details = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
+
     const [data, setData] = useState(null)
     const [modal, setModal] = useState(false)
     const [updateAbility, setUpdateAbility] = useState(false)
     const [updateLoading, setUpdateLoading] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get(`http://localhost:3000/foods/${id}`)
@@ -25,6 +26,33 @@ const Details = () => {
                 setData(data.data)
             })
     }, [])
+
+    // console.log(new Date(data?.expiryDate))
+    const isExpire = () => {
+        const expiryDate = new Date(data?.expiryDate)
+        const today = new Date()
+        const after5days = addDays(today, 5)
+        if (expiryDate <= today) {
+            return "Expired"
+
+        }
+        else if (expiryDate <= after5days) {
+            const remainingDate = ((after5days - expiryDate) / 86400000)
+            const remainingDays = Math.floor(remainingDate)
+            // console.log(remainingDate, remainingDays)
+            const remainingHours = Math.floor((remainingDate - remainingDays) * 24)
+            // console.log(remainingHours)
+            return `Expire in ${remainingDays}days ${remainingHours}Hours.`
+        }
+        else {
+            return "Good"
+        }
+
+
+
+
+    }
+
 
 
     const tomorrow = format(addDays(new Date(), 1), "yyyy-MM-dd")
@@ -90,8 +118,8 @@ const Details = () => {
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
                                 icon: "success"
-                            }).then((result)=>{
-                                if(result.isConfirmed){
+                            }).then((result) => {
+                                if (result.isConfirmed) {
                                     navigate("/fridge")
                                 }
                             })
@@ -143,7 +171,7 @@ const Details = () => {
                                     <FaCircle className='text-2xl mt-1 text-green-700' />
                                     <div>
                                         <h1 className='text-3xl font-semibold font-[Playfair]'>Status</h1>
-                                        <h1 className='text-lg'>Expired</h1>
+                                        <h1 className='text-lg'>{isExpire()}</h1>
                                     </div>
                                 </div>
                                 <div className='flex items-start gap-2'>

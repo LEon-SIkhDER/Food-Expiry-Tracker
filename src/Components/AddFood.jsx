@@ -5,10 +5,12 @@ import AuthContext from '../Context/AuthContext';
 import { addDays, format } from 'date-fns';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const AddFood = () => {
-    const [loading, setLoading] = useState(false)
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const tomorrow = addDays(new Date(), 1)
 
@@ -49,6 +51,8 @@ const AddFood = () => {
                 console.log(result)
                 setLoading(false)
                 toast.success("Food Add successfully")
+                navigate('/my-items')
+
 
             })
             .catch(error => {
@@ -96,7 +100,7 @@ const AddFood = () => {
                         {/* category */}
                         <fieldset className='fieldset bg-green-200  p-4 border-green-300 border-2'>
                             <label className='ml-2 text-[#193f0e] font-semibold text-sm'>Category </label>
-                            <select defaultValue="Category" name='Category' className="select border-none shadow-none focus:outline-green-400 focus:shadow-none bg-white w-full text-base">
+                            <select defaultValue="Category" name='category' className="select border-none shadow-none focus:outline-green-400 focus:shadow-none bg-white w-full text-base">
                                 <option disabled={true}>Category</option>
                                 <option value={"Dairy"}>Dairy</option>
                                 <option value={"Meat"}>Meat</option>

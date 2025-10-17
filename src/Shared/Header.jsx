@@ -23,24 +23,25 @@ const Header = () => {
         <NavLink to={"/"}><li className='text-lg font-semibold'>Home</li></NavLink>
         <NavLink to={"/fridge"}><li className='text-lg font-semibold'>Fridge</li></NavLink>
         <NavLink to={"/add-food"}><li className='text-lg font-semibold'>Add Food</li></NavLink>
+        <NavLink to={"/my-items"}><li className='text-lg font-semibold'>My Items</li></NavLink>
     </>
     const handleSignOut = () => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "Do you really want to log out!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#59067d",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, I do!"
         }).then((result) => {
             if (result.isConfirmed) {
                 signOut(auth)
                     .then(result => {
                         console.log(result)
                         Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            title: "Logged Out!",
+                            text: "Logged Out Successfully.",
                             confirmButtonColor: "#59067d",
                             icon: "success"
                         });

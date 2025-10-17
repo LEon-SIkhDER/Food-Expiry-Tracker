@@ -6,6 +6,7 @@ import LogIn from "./Components/Authentication/LogIn";
 import Register from "./Components/Authentication/Register";
 import AddFood from "./Components/AddFood";
 import Details from "./Components/Details";
+import MyItems from "./Components/MyItems";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
             {path:"/register", Component:Register},
             {path:"/add-food", Component:AddFood},
             {path:"/details/:id", Component:Details},
+            {path:"/my-items", Component:MyItems},
         ]
     },
 ]);

@@ -10,15 +10,24 @@ const Fridge = () => {
     const [data, setData] = useState([])
     const [total, setTotal] = useState(0)
     const [pageState, setPageState] = useState(1)
+    const [loading, setLoading] = useState(true)
+    const limit = 12
 
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/foods?skip=${(pageState - 1) * 12}`)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+        axios.get(`http://localhost:3000/foods?skip=${(pageState - 1) * 12}&limit=${limit}`)
             .then(data => {
                 console.log(data.data.result)
                 setData(data.data.result)
                 setTotal(data.data.total)
+                setLoading(false)
+
+
             })
     }, [pageState])
 
@@ -50,6 +59,31 @@ const Fridge = () => {
 
 
 
+    if (loading) {
+        return (
+            <div className='bg-gray-100 py-10'>
+                <section>
+                    <div className='grid grid-cols-4 gap-5'>
+                        {
+                            [...Array(limit)].map((_, index) =>
+                                <div className='w-full max-w-[325px]  h-auto  rounded-lg p-5 flex flex-col  border-3 border-gray-200' key={index}>
+                                    <div className='w-full bg-gray-200 aspect-square rounded animate-shimmer'></div>
+                                    <div className='flex mt-4 items-center justify-between'>
+                                        <h1 className='bg-gray-200 h-5 w-1/2 rounded  animate-shimmer'></h1>
+                                        <h2 className='bg-gray-200 h-4 w-1/3 rounded animate-shimmer'></h2>
+                                    </div>
+                                    <button className='h-10 w-full bg-gray-200 mt-5 animate-shimmer'></button>
+                                </div>
+                            )
+                        }
+                    </div>
+                </section>
+            </div>
+        )
+    }
+
+
+
 
     return (
         <div className='bg-gray-100 py-10'>
@@ -58,8 +92,9 @@ const Fridge = () => {
 
                 <div className='grid grid-cols-4 gap-5'>
                     {data?.map((d) =>
-                        <div className='p-5 border-3  rounded-lg bg-white' style={{ border: `4px solid ${color(isExpire(d.expiryDate))}` }}>
-                            <Link  to={`/details/${d._id}`}>
+
+                        <div className='p-5 border-3  rounded-lg bg-white flex flex-col' style={{ border: `4px solid ${color(isExpire(d.expiryDate))}` }} key={d._id}>
+                            <Link to={`/details/${d._id}`}>
 
                                 <div
 
@@ -76,6 +111,7 @@ const Fridge = () => {
                                 <h1 className='text-xl font-bold text-[#193f0e]'>{d.name}</h1>
                                 <h2 className='font-semibold'>{d.category}</h2>
                             </div>
+                            <div className='flex-1'></div>
                             <Link to={`/details/${d._id}`}>
                                 <button className='btn w-full mt-5 text-lg font-semibold  text-white' style={{ background: `${color(isExpire(d.expiryDate))}` }}>View Details</button>
                             </Link>
@@ -87,7 +123,7 @@ const Fridge = () => {
                     <button onClick={() => setPageState(pageState - 1)} disabled={pageState === 1} className='btn'><ChevronLeft /></button>
                     {
                         [...Array(Math.ceil(total / 12))].map((_, index) =>
-                            <button className={`btn ${pageState === index + 1 && "bg-blue-500 text-white"}`} onClick={() => setPageState(index + 1)}>{index + 1}</button>
+                            <button className={`btn ${pageState === index + 1 && "bg-blue-500 text-white"}`} onClick={() => setPageState(index + 1)} key={index}>{index + 1}</button>
 
                         )
                     }
